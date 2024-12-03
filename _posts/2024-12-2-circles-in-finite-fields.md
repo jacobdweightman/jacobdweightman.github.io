@@ -24,7 +24,7 @@ a uniformly random direction. This led me to ask myself, "what should the veloci
 of the ball be, given the angle I want it to go in?" I drew a right triangle,
 chanted SOH-CAH-TOA, and landed on a solution that looked something like this:
 
-![Triangle]({{site.url}}/assets/triangle.svg)
+![Triangle]({{site.url}}/assets/circles-in-finite-fields/triangle.svg)
 
 The next week in math class, the teacher drew the same picture up on the board,
 set $$ v = 1 $$, and introduced something that blew my mind with how nicely it
