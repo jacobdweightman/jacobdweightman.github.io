@@ -1,3 +1,29 @@
-theme: jekyll-theme-minimal
-title: Octocat's homepage
-description: Bookmark this to keep an eye on my project updates!
+title: Jacob Weightman's Homepage
+author: Jacob Weightman
+lang: "en"
+description: >-
+  Sometimes I write about things that interest me here.
+baseurl: ""
+url: ""
+github_username:  jacobdweightman
+
+remote_theme: niklasbuschmann/contrast@v2.11
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+
+
+# Theme configurations
+show_excerpts: true        # show article excerpts on the home page
+show_frame: true           # adds a gray frame to the site
+show_sidebar: false        # show a sidebar instead of the usual header
+
+# Menu
+navigation:                # accepts {file, title, url, icon, sidebaricon}
+  - {file: "index.html"}
+  - {file: "README.md"}
+
+external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
+  - {title: Mail, icon: envelope, url: "mailto:niklasbuschmann@users.noreply.github.com"}
+  - {title: Github, icon: github, url: "https://github.com/niklasbuschmann/contrast"}
+  - {title: Subscribe, icon: rss, url: "/feed.xml"}
