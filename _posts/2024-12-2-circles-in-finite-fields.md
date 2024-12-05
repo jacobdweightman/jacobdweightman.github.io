@@ -6,14 +6,14 @@ categories: algebra
 mathjax: true
 ---
 
-I recently read this great paper [Reed Solomon Codes over the Circle Group](https://eprint.iacr.org/2023/824.pdf)
-that makes great use of the circle group to be able to use of an important kind
-of error correcting code in finite fields where it is otherwise difficult. If
-that sounds like gibberish to you, be not afeard! That's not really what I'm here to
-talk about! While quite tangential to the contents of the paper, I was intrigued
-by the idea of translating circle groups into the context of finite fields, and
-wondered if there was a good way to understand these groups spatially, given how
-weird finite fields tend to be. Hence the title of the blog post!
+I recently read a fun paper [Reed Solomon Codes over the Circle Group](https://eprint.iacr.org/2023/824.pdf)
+that uses circle groups to perform an important kind of error correcting code in
+finite fields where it's otherwise difficult. If that sounds like gibberish to
+you, be not afeard! That's not really what I'm here to talk about! While quite
+tangential to the contents of the paper, I was intrigued by the idea of
+translating circle groups into the context of finite fields, and wondered if
+there was a good way to understand these groups spatially, given how weird
+finite fields tend to be. Hence the title of the blog post!
 
 # The Unit Circle
 
