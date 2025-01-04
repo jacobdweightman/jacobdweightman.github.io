@@ -137,7 +137,7 @@ $$ \vec{v} = (v\cos{\theta}, v\sin{\theta}) $$
 And from this we can compute the expected values of $$v_x^2$$ and $$v_y^2$$ in
 terms of the overall speed $$v$$ with some _iconic_ integrals. Seriously, how
 many courses made me show my work for these exact integrals? I think the answer
-is at least 6!
+is at least 6, but maybe I'm leaving some out!
 
 $$
 \langle v_x^2 \rangle
@@ -156,8 +156,8 @@ $$
 Doing these integrals was maybe a bit unnecessary, so here's a slightly more
 intuitive argument: since all directions are equally likely, it must be the case
 that $$\langle v_x^2 \rangle$$ and $$\langle v_y^2 \rangle$$ are equal. And then
-we have the Pythagorean identity $$v^2 = v_x^2 + v_y^2 = 2v_x^2 = 2v_y^2$$, which
-is the same result as the previous argument.
+we have the Pythagorean identity $$v^2 = v_x^2 + v_y^2 = 2v_x^2 = 2v_y^2$$, and
+dividing both sides by 2 gives us the same result as the other argument.
 
 This tells us two interesting things: first, that the pressure on the
 $$y$$-axis-aligned walls is equal to the pressure on the $$x$$-axis-aligned
@@ -170,20 +170,20 @@ $$P = \frac{mv_x^2}{V} = \frac{mv^2}{2V} $$
 This formula is still only for a "gas" with a single molecule. What if there
 were more? Our assumption that the molecules don't interact with each other
 makes this remarkably simple: each particle exerts the same forces on the
-container, and since they have no effect on each other the forces of all the
-particles are completely independent. Thus, the pressure scales directly with
-the number of particles:
+container on average, and since they have no effect on each other the forces of
+all the particles are completely independent. Thus, the pressure scales directly
+with the number of particles:
 
 $$ P = \frac{Nmv^2}{2V} $$
 
-This is tantalizingly close to the ideal gas law — but it still doesn't say
+This is tantalizingly close to the ideal gas law — but it still doesn't say
 anything about temperature! In fact, it's not entirely obvious how the
 temperature of a collection of bouncy balls ought to be defined. Luckily, we
 stand on the shoulders of giants, and statistical mechanics gives us a
 reasonable answer in the _equipartition theorem_. This theorem is kind of a
 strange beast, and I remember taking a while to wrap my head around why it was
 true and all of its caveats. Glossing over a lot of detail and neglecting all of
-the caveats, it says that the average kinetic energy associated with each
+those caveats, it says that the average kinetic energy associated with each
 dimension our bouncy ball gas moves in is $$\frac{1}{2}k_bT$$, which gives us
 the following equation for our 2D gas, which we take as the definition of
 temperature:
@@ -201,11 +201,27 @@ $$ P = \frac{Nk_bT}{V} $$
 That's pretty neat, but it turns out the equipartition theorem isn't actually
 applicable to this system — one of those caveats we glossed over in the last
 section is violated. In particular, for equipartition to apply, the system must
-be able to move from almost any particular configuration to almost any other
-particular configuration with the same energy, a property called _ergodicity_.
-Our gas in a box is not ergodic, because a particle with velocity
-$$\vec{v} = \langle v_x, v_y \rangle$$ will have at most four possible velocities
-over all time, all of which have the same speed!
+be able to move from almost any configuration to almost any other configuration
+with the same energy, a property called _ergodicity_. This is actually a **very**
+strong statement — if our gas in a box is ergodic, then we can pick a random
+initial position and velocity for every molecule in our gas, and watch one
+molecule in particular, we will eventually see it at **every** point in the box,
+moving in **every** direction, at **every** possible speed, even the one where it
+has **all** the kinetic energy of the system, such that all the other molecules
+aren't moving at all. In fact, ergodicity is an even stronger statement than
+that — we can pick the position, speed, and direction of all the gas molecules,
+and we will eventually see the gas in that **exact** state.
+
+Unfortunately, our non-interacting gas in a box is not even close to ergodic. A
+gas of multiple non-interacting molecules in a box cannot be ergodic, because
+there's no way for molecules to exchange energy. That means the speed of each
+molecule never changes, so all the states where that particle has a different
+amount of kinetic energy are unreachable. This isn't a problem with only one
+molecule because it must always have all of the system's the kinetic energy, but
+it only ever goes in a few possible directions. In particular, a particle with
+velocity $$\vec{v} = (v_x, v_y)$$ will have at most four different velocities
+unto the end of time! These come from reflecting the initial velocity off of the
+vertical and horizontal walls:
 
 $$ (v_x, v_y) $$
 
@@ -215,28 +231,33 @@ $$ (-v_x, v_y) $$
 
 $$ (-v_x, -v_y) $$
 
-This means there are lots of plausible states (almost all of them, actually)
-that a particular instance of our gas in a box will never reach. It's worth
-pointing out that this is a result of our square box — there are other container
-shapes like Bunimovich stadia that _are_ ergodic, but this makes the bounces
-aperiodic and therefore breaks our previous approach to calculating the
-pressure. Here's a particle bouncing around a Bunimovich stadium, which
-illustrates the chaotic motion of this ergodic system:
+This means there are lots of states with the same energy that will never be
+reached by our gas in a box with a particular set of initial conditions. It's
+worth pointing out that this is a consequence of choosing a rectangular box —
+there are other container shapes like Bunimovich stadia that _are_ ergodic for
+a single molecule gas, but this makes the bounces aperiodic and therefore
+breaks our previous approach to calculating the pressure. Just for fun, here's
+a particle bouncing around a Bunimovich stadium, which illustrates the chaotic
+motion of this ergodic system:
 
 <iframe src="{{site.url}}/gas/bunimovich_gas.html" width=600 height=400></iframe>
 
-There's another way to make this system ergodic, though, regardless of the shape
-of the container: add in a second ball to our square container, and in addition
-to bouncing off of the walls, let them bounce off each other. This system was
-defined and proven ergodic by Yakov Sinai in 1963. It seems intuitive that if
-the two particle system is ergodic, it should also be ergodic for three or more.
-It turns out this is still an open mathematical question, and not nearly as many
-of the systems physicists study have been proven ergodic as I would have thought.
-Instead, ergodicity is often accepted as an unproven assumption. However, this
-isn't actually as disturbing as I first thought: even if the ideal gas system
-isn't ergodic and equipartition doesn't apply, the only gap between our model
-and the ideal gas law is that $$\frac{1}{2}mv^2 = k_bT$$, or that temperature is
-proportional to the average kinetic energy of the particles. How very reasonable!
+There's another way to make our gas in a square box ergodic, though: add in a
+second ball to our square container, and in addition to bouncing off of the
+walls, let them bounce off each other. This system was defined and proven to be
+ergodic by Yakov Sinai in 1963. It seems intuitive that if the two particle
+system is ergodic, it should also be ergodic for three or more. It turns out
+this is still an open mathematical question, and not nearly as many of the
+systems physicists study have been proven ergodic as I would have thought.
+Instead, ergodicity is often accepted as an unproven assumption in statistical
+mechanics. However, this isn't actually as disturbing as I first thought: even
+if the ideal gas system isn't ergodic and equipartition doesn't apply, the only
+gap between our model and the ideal gas law is that the average kinetic energy
+of molecules in our gas is equal to $$k_bT$$. In fact, there are other
+thermodynamic reasons that this ought to be the case that I won't get into here,
+though admittedly I'm not sure if these ultimately trace back to the ergodic
+hypothesis or not. However, I'm inclined to say this is good enough for doing
+physics!
 
 
 # But I bet bouncy balls look cool!
@@ -268,18 +289,29 @@ Indeed, we can see plausible agreement with this distribution for this
 simulation. In order to make this clear, I've increased the particle number to
 make the "shape" of the histogram more definite, and also decreased the size of
 the particles so that there are fewer collisions, which makes the simulation run
-faster.
+at a higher framerate and slows down the "relaxation to equilibrium."
 
 <iframe src="{{site.url}}/gas/speed_histogram.html" width=800 height=400></iframe>
 
 
 # Some other fun things!
 
+It looks like I'm 2 for 2 on writing posts without real conclusions. I guess
+that's because I'm not really chasing any new results here as much as I am
+sharing about things that interest me. Maybe I'll make it a thing where I sort
+of trail off with cool, loosely related visuals. Anyway, thanks for reading!
+
+
+## Appendix: Excitations at Absolute Zero
+
 If we start with a gas with no molecular motion — that is, one at absolute zero
 — and a single excited molecule, we can watch this excitation put all of the
 other molecules into motion.
 
 <iframe src="{{site.url}}/gas/cold_gas.html" width=400 height=400></iframe>
+
+
+## Appendix: Mixing of Different Gases
 
 Perhaps a bit similarly, if we mark our molecules with colors, we can also watch
 the distinct gases diffuse into each other. In this simulation, all of the
