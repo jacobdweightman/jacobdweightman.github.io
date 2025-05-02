@@ -25,37 +25,38 @@ The history of their development is long and storied, and starts with Emil Leon
 Post (who is probably better known for his other contributions like the
 [Post correspondence problem](https://en.wikipedia.org/wiki/Post_correspondence_problem)).
 Post posed the problem of "predicting" the behavior of tag systems as early as
-1920, which he cutely named "the problem of tag." Less cutely, it turns out that
-this problem is equivalent to the halting problem, and is therefore provably
-impossible to solve. Interestingly, this represents a relatively early brush
-with the limits of decidability, and runs in tandem with many of the other major
-developments of computability theory. De Mol has also written a thorough
-accounting of this history in a few places
+1920, which he cutely named "the problem of tag" after the classic recess game.
+Less cutely, it turns out that this problem is equivalent to the halting
+problem, and is therefore provably impossible to solve in general. Interestingly,
+this represents a relatively early brush with the limits of decidability, and
+runs in tandem with many of the other major developments of computability theory.
+De Mol has also written a thorough accounting of this history in a few places
 <a href="#cit2">[2]</a><a href="#cit3">[3]</a>, which is definitely worth
 checking out if you're curious.
 
 ## Understanding Tag Systems
 
 So... what actually is a tag system? I'll start with an intuitive explanation.
-Imagine a clear, narrow tube. Following a very simple set of rules, we'll pull
-marbles of various colors out of one end of the tube, and add more marbles in
-the other end. Because the tube is narrow, the marbles stay in order. Because
-the tube is clear, we can watch them go by as we go along removing and adding
-marbles. The process looks something like this:
+Imagine a clear, narrow tube full of marbles of various colors. Following a very
+simple set of rules, we'll pull a fixed number marbles of various colors out of
+one end of the tube, and depending on the color of the first one, we'll add some
+sequence of marbles in the other end. Because the tube is narrow, the marbles
+stay in order. Because the tube is clear, we can watch them go by as we go along
+removing and adding marbles. The process looks something like this:
 
 ![A simple tag system?]({{site.url}}/assets/tag-systems/tag_system.gif)
 
-The rules here are quite simple: at each step, remove two marbles from the front
-of the tube. Look at the color of the first marble that was removed: if it's
-red, add a red and a blue marble to the back, in that order. If it's green, add
-two red marbles and a blue marble to the back. If it's blue, add a single green
-marble. Note that for this tag system, we always take two marbles out of the
-front, but depending on the color of the marble we take out first, we might
-insert one, two, or three. This means that the number of marbles in the tube can
-change! If we ever find that there aren't two marbles to take out, we stop the
-process. Indeed, for our initial state of three green marbles in the animation,
-we find ourselves with only one green marble in the tube after 11 steps, so we
-say that the tag system _halts_ on this initial state.
+The rules in this example are quite simple: at each step, remove two marbles from
+the front of the tube. Look at the color of the first marble that was removed:
+if it's red, add a red and a blue marble to the back, in that order. If it's
+green, add two red marbles and a blue marble to the back. If it's blue, add a
+single green marble. Note that for this tag system, we always take two marbles
+out of the front, but depending on the color of the marble we take out first, we
+might insert one, two, or three. This means that the number of marbles in the
+tube can change! If we ever find that there aren't two marbles to take out, we
+stop the process. Indeed, for our initial state of three green marbles in the
+animation, we find ourselves with only one green marble in the tube after 11
+steps, so we say that the tag system _halts_ on this initial state.
 
 $$
 GGG \Rightarrow GRRB \Rightarrow RBRRB \Rightarrow RRBRB \\
@@ -65,12 +66,13 @@ GGG \Rightarrow GRRB \Rightarrow RBRRB \Rightarrow RRBRB \\
 $$
 
 Tag systems don't always halt. There are two other behaviors that are possible:
-_looping_ and _diverging_. Because the rules only allow one possible way to
-proceed, tag systems are _deterministic_. That is, all the future states of the
-system are entirely determined by the current state. If the tag system were to
-end up in the same state multiple times, it will end up circling back to it
-infinitely many times, and we say that it _loops_ on the initial state. Our
-example tag system, for instance, has the following loop:
+we might eventually come back to some sequence of marbles that has happened
+before, and because the way we proceed is deterministic, we will do this over
+and over again. When this happens, we say that the tag system _loops_. It's also
+possible to do neither of these things by having an ever-growing sequence of
+marbles, in which case we say that the tag system _diverges_. Note that a
+particular tag system might do different things on different initial sequences
+of marbles. To make this concrete, here's a sequence for our example tag system that loops every three steps:
 
 $$
 GRB \Rightarrow BRRB \Rightarrow RBG \Rightarrow GRB \Rightarrow \dots
@@ -81,7 +83,8 @@ initial state. This is possible if the string keeps on growing indefinitely, in
 which case we say that the tag system _diverges_ on the initial state. This one
 seems to be the trickiest to prove or reason about. For our example tag system,
 I _think_ it always either halts or loops, but I haven't been able to prove it
-yet. For an example of a system that can diverge, consider the following rules:
+yet. For an example of a system that can diverge, consider the following tag
+system:
 
 $$
 \begin{cases}
@@ -92,33 +95,44 @@ B \rightarrow BBB
 \end{cases}
 $$
 
-Which has the divergent computation
+This tag system diverges when starting with two blue marbles, because on each
+step we remove two blue marbles and add three more.
 
 $$ BB \Rightarrow BBB \Rightarrow BBBB \Rightarrow \dots $$
 
-At this point, we have all the intuition we need to understand Post's "problem
-of tag": given the rules of a particular tag system and a particular initial
+Now you should have all the intuition necessary to understand Post's "problem
+of tag:" given the rules of a particular tag system and a particular initial
 state, does the tag system eventually halt, loop, or diverge?
 
 
 ## Into the Weeds
 
-At this point, we hopefully have some common intution for tag systems, and so
-it's time to get formal. Instead of talking about marbles and tubes, we'll now
-start talking about an _alphabet_ and _strings_. Let $$\Sigma$$ be a finite
-set we call the _alphabet_, and whose elements we call _symbols_. Finite
-sequences of symbols are called _strings_, which we denote $$\Sigma^\ast$$. A
-tag system is defined by a _deletion number_ $$v > 0$$, alphabet $$\Sigma$$, and a
-function $$\sigma : \Sigma \rightarrow \Sigma^\ast$$ that associates each symbol
-with the string that should be appended. That is, a tag system is a tuple
-$$T = (v, \Sigma, \sigma)$$.
+My actual intention with writing this post is to describe some formalization
+work I've been doing to systematize results about tag systems in the Lean
+theorem prover, so everything that follows is going to be a bit dry and very
+formal. In formal mathematical style, we'll start with definitions and enumerate
+some theorems in a carefully chosen order. In less formal style, I'll include
+some informal exposition for each proof as we go along, so that you can choose
+your own adventure and read only the theorems, or the first paragraph of each
+proof, or the whole proof, and get a progressively more detailed but coherent
+picture in any case. If you find your eyes glazing over, feel free to start
+skimming!
 
-Now we can begin define the semantics of the tag system. For starters, we say
-that $$T$$ has halted on a string $$A$$ iff $$|A| < v$$. We also define the
-function $$next$$ in terms of _concatenation_ ($$\texttt{++}$$) which joins two
-strings together one after the other, $$drop$$ which removes the given number of
-symbols from the start of a string, and $$head$$ which gives the first symbol of
-a string:
+Now let's get to it. Instead of talking about marbles and tubes, we'll now start
+talking about an _alphabet_ and _strings_. Let $$\Sigma$$ be a finite set we
+call the _alphabet_, and whose elements we call _symbols_. Finite sequences of
+symbols are called _strings_, which we denote $$\Sigma^\ast$$. A tag system is
+defined by a _deletion number_ $$v > 0$$, alphabet $$\Sigma$$, and a function
+$$\sigma : \Sigma \rightarrow \Sigma^\ast$$ that associates each symbol with the
+string that should be appended. That is, a tag system is a tuple $$T =
+(v, \Sigma, \sigma)$$.
+
+Now we can define the semantics of the tag system. For starters, we say that
+$$T$$ has halted on a string $$A$$ iff $$|A| < v$$. We also define the function
+$$next$$ in terms of _concatenation_ ($$\texttt{++}$$) which joins two strings
+together one after the other, $$drop$$ which removes the given number of symbols
+from the start of a string, and $$head$$ which gives the first symbol of a
+string:
 
 $$
 next(T, A) \coloneqq \begin{cases}
@@ -335,7 +349,8 @@ halts or enters a loop. It's easy to tell these two cases apart by the length
 of the string. Now, either $$length(f(i_1)) < v$$ or it is not.
 
 _Case 1:_ suppose $$length(f(i_1)) < v$$. Then we have that
-$$length(next^{\varphi(i_1)}(T, A)) < v$$, and therefore $$halts(T, A)$$.
+$$length(next^{\varphi(i_1)}(T, A)) < v$$, so
+$$halted(T, next^{\varphi(i_1)}(T, A))$$. Therefore $$halts(T, A)$$.
 
 _Case 2:_ suppose $$length(f(i_1)) \ge v$$. Then we have
 $$\neg halted(T, next^{\varphi(i_1)}(T, A))$$. We also have that
@@ -357,9 +372,9 @@ building blocks we need here are mutual exclusion lemmas for weak divergence.
 <b>Proof:</b> suppose that $$T$$ halts on $$A$$ in $$s$$ steps. By the definition
 of $$diverges$$ and DeMorgan's law, we want to show that
 $$ ∃i \in \mathbb{N}, ∀ j > i, length(next^j A) ≤ length(next^i A) $$. It happens
-that $$i$$ is such a number: since $$halted(T, next^i(T, A))$$, we have that
-$$next^j(T, A) = A$$, and therefore $$length(next^j A) ≤ length(next^i A)$$ for
-all $$j > i$$.
+that $$s$$ is such a number: since $$halted(T, next^s(T, A))$$, we have that
+$$next^j(T, A) = next^s(T, A)$$, and therefore $$length(next^j A) ≤ length(next^s A)$$ for
+all $$j > s$$.
 <p style="text-align:right; margin-top: -2em">□</p>
 
 <b>Lemma 5:</b> $$T$$ cannot both loop and weakly diverge on $$A$$.
@@ -443,10 +458,10 @@ contribute a meaningful systematization of this work. I already have another
 post planned with some more theorems, so stay tuned!
 
 
-<cit id="cit1">[1]</cit> Liesbeth De Mol. _Tag systems and Collatz-like functions_. Theoretical Computer Science, Volume 390, Issue 1, 2008, Pages 92-101. [Link](https://doi.org/10.1016/j.tcs.2007.10.020)
+<label id="cit1">[1]</label> Liesbeth De Mol. _Tag systems and Collatz-like functions_. Theoretical Computer Science, Volume 390, Issue 1, 2008, Pages 92-101. [Link](https://doi.org/10.1016/j.tcs.2007.10.020)
 
-<cit id="cit2">[2]</cit> Liesbeth De Mol. _Tracing Unsolvability: A Mathematical, Historical and Philosophical Analysis with a Special Focus on Tag Systems_. Ghent University. Faculty of Arts and Philosophy, 2007.
+<label id="cit2">[2]</label> Liesbeth De Mol. _Tracing Unsolvability: A Mathematical, Historical and Philosophical Analysis with a Special Focus on Tag Systems_. Ghent University. Faculty of Arts and Philosophy, 2007.
 
-<cit id="cit3">[3]</cit> Liesbeth De Mol. _Solvability of the Halting and Reachability Problem for Binary 2-tag Systems_. Fundamenta Informaticae, Volume 99, Issue 4, 2025, Pages 435-471. [Link](https://dl.acm.org/doi/10.5555/1834610.1834614).
+<label id="cit3">[3]</label> Liesbeth De Mol. _Solvability of the Halting and Reachability Problem for Binary 2-tag Systems_. Fundamenta Informaticae, Volume 99, Issue 4, 2025, Pages 435-471. [Link](https://dl.acm.org/doi/10.5555/1834610.1834614).
 
-<cit id="cit3">[4]</cit> Emil Leon Post. _Formal Reductions of the General Combinatorial Decision Problem_.  American Journal of Mathematics, Volume 65, NO 2, 1943. [Link](https://www.jstor.org/stable/2371809).
+<label id="cit3">[4]</label> Emil Leon Post. _Formal Reductions of the General Combinatorial Decision Problem_.  American Journal of Mathematics, Volume 65, NO 2, 1943. [Link](https://www.jstor.org/stable/2371809).
