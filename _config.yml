@@ -12,7 +12,6 @@ plugins:
   - jekyll-feed
   - jekyll-remote-theme
 
-
 # Theme configurations
 show_excerpts: true        # show article excerpts on the home page
 show_frame: true           # adds a gray frame to the site
