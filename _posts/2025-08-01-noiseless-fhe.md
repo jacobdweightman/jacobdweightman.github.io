@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Is Noiseless FHE Even Possible?"
+title:  "Computing on Encrypted Data"
 date:   2025-08-19 00:00:00 -0600
 categories: cryptography
 mathjax: true
@@ -24,9 +24,9 @@ you in the process. Seems like a neat idea, but it feels a bit far-fetched,
 right? Well, this is possible _today_, and its getting more and more practical
 all the time thanks to hard-working cryptographers and compiler engineers.
 
-Now let's make the a bit more precise. An "ordinary" encryption scheme has three
-parts: a procedure to generate a _secret key_ that is necessary to encrypt and
-decrypt data, and then of course the actual procedures to do the actual
+Now let's make the idea a bit more precise. An "ordinary" encryption scheme has
+three parts: a procedure to generate a _secret key_ that is necessary to encrypt
+and decrypt data, and then of course the actual procedures to do the actual
 _encrypting_ and _decrypting_. The original data we call a _plaintext_, and the
 encrypted data we call a _ciphertext_. There are encryption schemes that use
 different keys for encryption and decryption, called asymmetric- or public-key
@@ -61,14 +61,15 @@ it uses randomness to pick one at random; similarly, any particular plaintext
 might have many possible ciphertexts, and so $$\mathrm{encrypt}$$ is similarly
 randomized. To that end, each one takes an additional parameter capturing the
 "randomness," so that they are well-defined functions. For convenience,
-cryptographers often use a shorthand for using randomized functions, so that the
-random data that's passed in doesn't need to be tracked explicitly. That is,
-instead of writing "for some $$\omega$$ sampled from $$\Omega$$, let
-$$y \coloneqq \mathrm{encrypt}(sk, m, \omega)$$," we simply write
-$$y \leftarrow \mathrm{encrypt}(sk, m)$$. Lastly, to have a usable scheme, we
-need decryption to "actually work," so we require a property called
-_correctness_, which states that decrypting an encrypted message always gives
-back the original message:
+cryptographers often use a shorthand notation when working with randomized
+functions like these, so that the random data that's passed in doesn't need to
+be tracked explicitly. That is, instead of writing "for some $$\omega$$ sampled
+from $$\Omega$$, let $$y \coloneqq \mathrm{encrypt}(sk, m, \omega)$$," we simply
+write $$y \leftarrow \mathrm{encrypt}(sk, m)$$. In a slight abuse of notation,
+we will often simply omit the $$\omega$$ parameter or arrow and write
+$$\mathrm{encrypt}(sk, m)$$. Lastly, to have a usable scheme, we need decryption
+to "actually work," so we require a property called _correctness_, which states
+that decrypting an encrypted message always gives back the original message:
 
 $$
 \mathrm{decrypt}(sk, \mathrm{encrypt}(sk, m)) = m
@@ -86,8 +87,8 @@ arbitrary ciphertext can decide any property of the plaintext that wasn't
 already clear from just the message size and basic information about the
 encryption scheme itself. Typically, to prove that a scheme is semantically
 secure, one would use a different formulation in terms of an adversary
-distinguishing ciphertexts, but we won't be too concerned about the details here,
-so I'll skip an equational definition.
+distinguishing ciphertexts, but we won't be too concerned about the details here
+so I'll skip a more formal definition.
 
 
 ## Adding in Homomorphisms
@@ -180,8 +181,9 @@ algorithms for converting finite fields into a canonical form, and so no such
 scheme can be secure. Now, maybe the ciphertext field could be larger than the
 plaintext one. To have a homomorphism between the fields, they must have the
 same _characteristic_, which for finite fields means that they are extensions of
-the same prime field. But polynomials over a field are also a vector space,
-which we also know is insecure. This proof is theorem 4 in <a href="#cit5">[5]</a>.
+the same prime field. But the extensions of a prime field are isomorphic to a
+vector space over that field, which we also know is insecure. This proof is
+theorem 4 in <a href="#cit5">[5]</a>.
 
 So we have these two "impossibility results" for vector spaces and fields. But
 then on the simpler side of algebraic structures, we've already seen that there are
