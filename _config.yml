@@ -7,10 +7,8 @@ baseurl: ""
 url: ""
 github_username:  jacobdweightman
 
-remote_theme: niklasbuschmann/contrast@v2.11
 plugins:
   - jekyll-feed
-  - jekyll-remote-theme
 
 # Theme configurations
 show_excerpts: true        # show article excerpts on the home page
