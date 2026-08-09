@@ -15,6 +15,7 @@ said that studying physics is learning a series of progressively smaller lies,
 and true to form by the time I finished my undergrad physics major I'd studied
 the same sorts of systems a bunch of times in progressively greater detail and
 with progressively fancier math. One such system is a gas in a box.
+<!--more-->
 
 My first encounter with a model of gas in a box was the kinetic theory of gases
 and ideal gas law in high school chemistry. The model is remarkably simple:

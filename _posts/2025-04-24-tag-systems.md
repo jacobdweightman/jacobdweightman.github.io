@@ -16,6 +16,7 @@ really common ones like state machines and context free grammars that every
 programmer probably encounters at some point in their career. I'm probably
 biased though, since I'm a compiler engineer during standard working hours, so
 these are kind of my bread and butter.
+<!--more-->
 
 Anyway, this researcher, Liesbeth De Mol, used a kind of math computer called a
 tag system to do number theory, and I think that's neat. I wasn't familiar with

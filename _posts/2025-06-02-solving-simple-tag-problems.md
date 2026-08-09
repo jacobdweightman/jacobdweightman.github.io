@@ -11,6 +11,7 @@ where I introduced a marble machine called a _tag system_, and the possible
 behaviors they can have, namely _halting_, _looping_, and _diverging_. I also
 talked about _the problem of tag_, which asks whether a particular tag system
 operating on a particular starting sequence eventually halts, loops, or diverges.
+<!--more-->
 I had also alluded to the fact that tag systems are Turing complete, which is
 a really important "no-go" theorem when discussing the problem of tag -- in
 particular, it means that there is no _fully general_ solution to the problem.

@@ -23,6 +23,7 @@ about your secrets, or even the results of the computations they're doing for
 you in the process. Seems like a neat idea, but it feels a bit far-fetched,
 right? Well, this is possible _today_, and its getting more and more practical
 all the time thanks to hard-working cryptographers and compiler engineers.
+<!--more-->
 
 Now let's make the idea a bit more precise. An "ordinary" encryption scheme has
 three parts: a procedure to generate a _secret key_ that is necessary to encrypt

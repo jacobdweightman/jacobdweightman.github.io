@@ -14,6 +14,7 @@ tangential to the contents of the paper, I was intrigued by the idea of
 translating circle groups into the context of finite fields, and wondered if
 there was a good way to understand these groups spatially, given how weird
 finite fields tend to be. Hence the title of the blog post!
+<!--more-->
 
 # The Unit Circle
 

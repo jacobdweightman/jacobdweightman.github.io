@@ -40,3 +40,25 @@ header h1
 
 article, main
   flex-grow: 1
+
+.attributed-image
+  display: table
+  max-width: 100%
+  margin: 0 auto
+
+  img
+    display: block
+    max-width: 100%
+    height: auto
+
+  figcaption
+    display: table-caption
+    caption-side: bottom
+    font-size: 0.75em
+    color: #888
+    margin-top: 0.25em
+
+excerpt .attributed-image
+  img
+    max-width: 20em
+    height: auto
