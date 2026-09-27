@@ -425,8 +425,10 @@ $$
 
 The left side of this expression is a very convenient kind of thing called a
 bilinear form. One of the nice properties of bilinear forms is that they induce
-a notion of distance, or in the language of linear algebra a _norm_.
-Specifically, the bilinear form is
+a notion of distance, or in the language of linear algebra a _norm_. This notion
+of distance defines the sense in which the weak solution is "close" to the
+strong solution, and in problems like this it usually corresponds to some notion
+of energy. For our 1D linearly elastic rod in specific, this bilinear form is
 
 $$
 a(f, g) \coloneqq \int_0^1 \mathrm{EA}(X) f'(X) g'(X) \mathrm{d}X
@@ -435,12 +437,22 @@ $$
 and the induced norm is
 
 $$
-\|w\|_a \coloneqq \sqrt{a(w, w)}
+\|\cdot\|_a \coloneqq \sqrt{a(\cdot, \cdot)}
 $$
 
-Now consider any other function $$v_{P_1}(X) \in P_1(M)$$,
-and let $$\delta = u_{P_1} - v_{P_1}$$ which is also in $$P_1(M)$$. Observe
-that
+It's worth taking a moment here to interpret this: $$\|u\|_a^2$$ is the integral
+of the rigidity of the rod multiplied by $$u'^2$$ over the length of the rod.
+This looks an awful lot like the equation for the potential energy of a spring,
+$$\frac{1}{2}k(\Delta x)^2$$, which is not a coincidence at all; this integral
+is the strain energy of the deformed rod, up to a constant factor. Since a norm
+is non-negative, a constant factor or squaring doesn't affect the result of an
+optimization problem. Thus, the function with the smallest value of
+$$\|\cdot\|_a^2$$ is the one that minimizes the overall strain energy of the rod
+while still satisfying the boundary conditions.
+
+Now let's show that $$u_{P_1}$$ is actually this function. Consider any other
+function $$v_{P_1}(X) \in P_1(M)$$, and let $$\delta = u_{P_1} - v_{P_1}$$ which
+is also in $$P_1(M)$$. Observe that
 
 $$
 u - v_{P_1} = u - u_{P_1} + u_{P_1} - v_{P_1} = e + \delta
@@ -450,13 +462,32 @@ Now consider the norm, and expand by linearity, noting that $$e$$ is orthogonal
 to $$\delta$$ since it's orthogonal to everything in $$P_1(M)$$:
 
 $$
-\|u - v_{P_1}\|_a^2 = \|e + \delta\|_a^2 = \|e\|_a^2 + \cancel{2a(e, \delta)} + \|\delta\|_a^2
+\begin{align*}
+\|u - v_{P_1}\|_a^2
+    &= \|e + \delta\|_a^2 \\
+    &= a(e + \delta, e + \delta) \\
+    &= a(e, e + \delta) + a(\delta, e + \delta) \\
+    &= a(e, e) + \cancel{2a(e, \delta)} + a(\delta, \delta) \\
+    &= \|e\|_a^2 + \|\delta\|_a^2
+\end{align*}
 $$
 
-Finally, the punchline: convert this to an inequality, drop the $\delta$ term,
+Finally, the punchline: convert this to an inequality, drop the $$\delta$$ term,
 and take the square root of both sides:
 
 $$ \|e\|_a = \|u - u_{P-1}\|_a \le \|u - v_{P_1}\|_a$$
 
 Thus, the weak solution has the smallest error of any function in $$P_1(M)$$, at
-least as measured by this particular induced norm.
+least as measured by this particular induced norm. In particular, the weak
+solution has the lowest possible potential energy of any function in our finite
+dimensional function space that satisfies the boundary conditions.
+
+This tells us something else interesting: the function space $$P_1(M)$$ is a
+subspace of the full infinite dimensional space the strong solution lives in.
+The strong solution has the smallest possible potential energy of any function
+in that larger space, including our weak solution. Thus, weak solutions always
+err on the side of having slightly higher potential energy, never lower, so the
+finite element method always predicts structures to be slightly stiffer than
+they really are.
+
+Thanks for reading!
